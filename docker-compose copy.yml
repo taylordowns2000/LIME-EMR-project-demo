@@ -155,64 +155,64 @@ services:
       MYSQL_USER: "zabbix"
       MYSQL_PASSWORD: "zabbix"
       MYSQL_DATABASE: "zabbix"
-      MYSQL_ROOT_PASSWORD: "root_password"  
+      MYSQL_ROOT_PASSWORD: "root_password"
+
+  openfn:
+    # env_file:
+    #   - '.env'
+    image: openfn/lightning:v2.0.0-rc3
+    restart: "no"
+    container_name: openfn-lightning
+    depends_on:
+      - postgres
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:4000/health_check"]
+    #   interval: '10s'
+    #   timeout: '3s'
+    #   start_period: '5s'
+    #   retries: 3
+    ports:
+      - "4000:4000"
+    environment:
+      EMAIL_ADMIN: "admin@openfn.org"
+      POSTGRES_USER: "hello"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_DB: "lightning_dev"
+      INIT_PROJECT_FOR_NEW_USER:  "false"
+      PURGE_DELETED_AFTER_DAYS: "7"
+      PRIMARY_ENCRYPTION_KEY: "0bJ9w+hn4ebQrsCaWXuA9JY49fP9kbHmywGd5K7k+/s="
+      ATTEMPTS_PRIVATE_KEY: "LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb2dJQkFBS0NBUUVBeWJER3JEbFBWd05yWTA4czF3VkU5SktDSWhhditwT1ZXVSsyR2pSekFneEI5dW5CCjFrejdJQTh3SUIyZ1NseDhYWHlPZDA5QmhlMHBiRERxV2Q5YWV5OGZNb2tTMUVkcGFBT1k0YnRPYlIwbDFlM2wKazBQelBIc2lITWlFVWpTQm5yS2ZJZVJjd1VKK3NPaTQxVjYrTVV4V1FhSFBPTXRrWjRMNFdUOTVvV0paNG8wdQpQd0pXS0V0cmh3cHdoSldHeFl1Ym51TVhJdW1PTW5USFZ4cmlpdGRjODdyMDhuUTF3eDJjT3JkUkVBK25mWjVWCml6VHprUVFBTG1PNUI4V3IrS1ZYRW5HRUVHVTR2alRMYkQ5blAyclVXMXYvSFBTamgyZjlOaDlxd1RDQm04bGoKb1JBQ3BUTUhlS2VxYmpQOVgxM2V1bFp0a2hhK05kRndkeDdPZ1FJREFRQUJBb0lCQURrU2hkV2NUZ0F3WG9YMgpsSml2ekFodElOZm1sWnVSZ1pTSlF0MTlkQUhqV0JNM3FIc3N3MjhaL1NOSlh0OUw5b0U1eXRLbUljTjFEZUNvCm90Z1ZwUFB3cktKUE9YM0tTMkI4akJsc09GQVdER3ZSNnNIV1c1RUV3dTFrTEZWYXVFY2hBbmpEdHgrVTRtYkwKSStwMDZkcm5ZQTBvYll3RHVnQzBoZlF6U3diSVhaM3d6V25BVlRaZE4yTGFqRTA2UHRNSkxsSzZZZ3FyWmpObQpzeXpKSVgwRmg4WlFlOHZVMmF1U205UnIvTFhwMEN6TFpDYmxUT2RRcXlRdFQ3cHR5c2ZBUWZvZkkrMFNWcVZ2CkhqQUhaTU5ZZk9mSFJiMVBjVzFKdjZlSUJERFZiYXNCZVl5bWlQRStXVEpkOU1hbFNFSlI5NDFmaWFBQ1UwVEcKRlhLclQ4RUNnWUVBL0JaNEJvbkdONkVsQUd5akhldU42eXhka3JCUHJhUWh4am5ScEZxMGQzTjFISUdBS2pEVQpvQStEU0JzMG1NY2xRWm8yT1dHVTdZbzhwNkEzZVMyNTc2aVF6a1pndnNhS3hXcnFWTTBCRHdlOU5mdEYyVXQwCjhoczNZS1V2ek1yNEhiL1FTVFZkWldWZkR0YUdBY3kxTkFnVlRJcE9PK1FDTlk5V3p1cVVlT2tDZ1lFQXpOSVUKNm1HOGcxOUtqN1lJb3hmd1E1c3E1WGhWSk8zQ3MvVXpqSU5HKzNSRnZDWDRxd2VoTVdUY0NBVVFicnl5MGlJSApYdGpXR1B3clM5Z0JiZzdsS2VJdkdQYXRlZGhrZUNqMDJzVVp3SnZoUGowaHRXTnZWckRnb1doWG03M0xNUU1lCnRrOTdDejZta0J5RWw0VGcwMTVLL1JHK2hVLzl0aVhWRDBoUEtka0NnWUFqV0c4cDA0V0VaVWJQNFd1WmxWNkgKdStlKzJwUEJjQU1BVFRrVXgxY0liSnJlRFZaUUZCcXIrcURZcWwvY2tBZXNSQmdZUVpObEh2M1VMd1c0S3U0bwpLVVZzZHJlMzZCU3JDNHVocWtEY3Y2UUsvcGxUbDEzbFdHV1NXbmJ5U3Y4eEJLVUtycjNTcXIwQ1VwZmxock5kCmdVaWpPNzB1YnBEVXU2MWJRODdmaVFLQmdFQkhBYWRZaXNlVHBSdWFuZlZJOHU3VWlFN0JSNzh5R25OTlZTTVkKbzdNUUZ6NW5rRFZrVEpMcXV4Nk5NRTRBVEFJa0Nib2JSSDFNemUyY1dUNkgwQ1VueFc0SkpBSGtCZ3VybHNQOQpMUXJFSUpqZXFIQjdSeHFtb2FnbHpiQ2pqRnZTUmRZaTlWTmZFdmlRNm85K2RPd0FZSG94RW1CVjdTSTNsemlYCmtiaHBBb0dBYjBrVUVpanl0akZlUWJBRGYvRk92VlRVdmUxZW9PK3JuWmJ2V3NhVWhVSGRuMTdDUXc0Y1ZjK0UKbHQzWXhHVmMvNldIV3E3azB4YXBlVWJucEF4NjNIMTlNZTRjTmJFaXZSb2d4bzdHWERnRDIxbENGUHlCUmZKagpLN2g1VE1lQnRnZjhibGdrVzcxenkyWFdNWnBJRXVRT3ZCZjJqRVJuU0hYTDFrL2NObDQ9Ci0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg"
+      WORKER_SECRET: "dECXNlqctXJ/a+1FI4AaeLZY4Rp+Pxo23WwmJxC2xew="
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/lightning_dev"
+      SECRET_KEY_BASE: "please_generate_a_more_secure_unique_secret_value_for_your_project"
 
   postgres:
-    deploy:
-      resources:
-        limits:
-          cpus: '${DOCKER_POSTGRES_CPUS:-0}'
-          memory: '${DOCKER_POSTGRES_MEMORY:-0}'
-    env_file:
-      - '.env'
-    image: 'postgres:14.2-alpine'
+    # env_file:
+    #   - '.env'
+    image: 'postgres:14-alpine'
+    container_name: openfn-postgres
     restart: '${DOCKER_RESTART_POLICY:-unless-stopped}'
     stop_grace_period: '3s'
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "hello"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_HOST: "postgres"
+      #POSTGRES_PORT=5432
+      POSTGRES_DB: "lightning_dev"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "${POSTGRES_DB:-lightning_dev}", "-h", "${POSTGRES_HOST:-postgres}", "-p", "${POSTGRES_PORT:-5432}", "-U", "${POSTGRES_USER:-hello}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - 'postgres:/var/lib/postgresql/data'
 
-  web:
-    image: 'openfn/lightning:v2.0.0-rc3'
-    deploy:
-      resources:
-        limits:
-          cpus: '${DOCKER_WEB_CPUS:-0}'
-          memory: '${DOCKER_WEB_MEMORY:-0}'
-    env_file:
-      - '.env'
-    depends_on:
-      - postgres
-    healthcheck:
-      test: '${DOCKER_WEB_HEALTHCHECK_TEST:-curl localhost:4000/health_check}'
-      interval: '10s'
-      timeout: '3s'
-      start_period: '5s'
-      retries: 3
-    ports:
-      - '${LIGHTNING_EXTERNAL_PORT:-127.0.0.1:${PORT}}:${URL_PORT}'
-
-  worker:
-    image: 'openfn/ws-worker:latest'
-    deploy:
-      resources:
-        limits:
-          cpus: '${DOCKER_WORKER_CPUS:-0}'
-          memory: '${DOCKER_WEB_MEMORY:-0}'
-    depends_on:
-      web:
-        condition: service_healthy
-        restart: true
-    env_file:
-      - '.env'
-    command:
-      ['pnpm', 'start:prod', '-l', 'ws://web:${URL_PORT}/worker']
-    restart: '${DOCKER_RESTART_POLICY:-unless-stopped}'
-    stop_grace_period: '3s'
-    expose:
-      - '2222'
 
 volumes:
   openmrs-data: ~
   db-data: ~
   zabbix-db-storage: ~
-  postgres: {}
+  postgres: ~
