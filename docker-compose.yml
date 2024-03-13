@@ -1,5 +1,23 @@
 version: "3.8"
 
+x-lightning: &default-app
+  build:
+    dockerfile: openfn/Dockerfile-dev
+    context: '.'
+    target: '${MIX_ENV:-dev}'
+    args:
+      - 'MIX_ENV=${MIX_ENV:-dev}'
+      - 'NODE_ENV=${NODE_ENV:-development}'
+  depends_on:
+    - 'postgres'
+  env_file:
+    - ./openfn/openfn.env
+  restart: '${DOCKER_RESTART_POLICY:-unless-stopped}'
+  stop_grace_period: '3s'
+  tty: ${TTY:-false}
+  volumes:
+    - '${LIGHTNING_VOLUME:-./openfn/priv/static:/app/priv/static}'
+
 services:
   # Networking
   gateway:
@@ -155,8 +173,67 @@ services:
       MYSQL_PASSWORD: "zabbix"
       MYSQL_DATABASE: "zabbix"
       MYSQL_ROOT_PASSWORD: "root_password"  
+  
+  #openfn
+  postgres:
+    profiles: ["openfn"]
+    deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_POSTGRES_CPUS:-0}'
+          memory: '${DOCKER_POSTGRES_MEMORY:-0}'
+    env_file:
+      - ./openfn/openfn.env
+    image: 'postgres:14.2-alpine'
+    restart: '${DOCKER_RESTART_POLICY:-unless-stopped}'
+    stop_grace_period: '3s'
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+
+  web:
+    <<: *default-app
+    profiles: ["openfn"]
+    deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_WEB_CPUS:-0}'
+          memory: '${DOCKER_WEB_MEMORY:-0}'
+    env_file:
+      - ./openfn/openfn.env
+    depends_on:
+      - postgres
+    healthcheck:
+      test: '${DOCKER_WEB_HEALTHCHECK_TEST:-curl localhost:4000/health_check}'
+      interval: '10s'
+      timeout: '3s'
+      start_period: '5s'
+      retries: 3
+    ports:
+      - '${LIGHTNING_EXTERNAL_PORT:-127.0.0.1:${PORT}}:${URL_PORT}'
+
+  worker:
+    image: 'openfn/ws-worker:latest'
+    profiles: ["openfn"]
+    deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_WORKER_CPUS:-0}'
+          memory: '${DOCKER_WEB_MEMORY:-0}'
+    depends_on:
+      web:
+        condition: service_healthy
+        restart: true
+    env_file:
+      - ./openfn/openfn.env
+    command:
+      ['pnpm', 'start:prod', '-l', 'ws://web:${URL_PORT}/worker']
+    restart: '${DOCKER_RESTART_POLICY:-unless-stopped}'
+    stop_grace_period: '3s'
+    expose:
+      - '2222'
 
 volumes:
   openmrs-data: ~
   db-data: ~
   zabbix-db-storage: ~
+  postgres: {}

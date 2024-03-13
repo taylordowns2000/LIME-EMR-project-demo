@@ -1,0 +1,59 @@
+{
+  "author": "Open Function Group, Inc.",
+  "name": "lightning",
+  "main": "js/app.js",
+  "scripts": {
+    "start": "node dev-server.mjs",
+    "test": "npx ava ./test/index.test.ts",
+    "test-report": "npx ava --tap ./test/index.test.ts | tap-xunit > ../test/reports/ava.xml"
+  },
+  "license": "LGPLv3",
+  "dependencies": {
+    "@heroicons/react": "^2.1.1",
+    "@monaco-editor/react": "^4.4.5",
+    "@openfn/describe-package": "^0.0.18",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.6",
+    "classcat": "^5.0.4",
+    "cronstrue": "^2.14.0",
+    "d3-hierarchy": "^3.1.2",
+    "elkjs": "^0.8.2",
+    "esbuild-plugin-copy": "^2.1.1",
+    "esbuild-postcss": "^0.0.4",
+    "immer": "^10.0.1",
+    "jsonpath": "^1.1.1",
+    "marked": "^4.2.4",
+    "monaco-editor": "^0.34.0",
+    "postcss": "^8.4.23",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-markdown": "^8.0.3",
+    "reactflow": "^11.7.0",
+    "tippy.js": "^6.3.7",
+    "zustand": "^4.3.7"
+  },
+  "devDependencies": {
+    "@openfn/ws-worker": "^1.0",
+    "@types/marked": "^4.0.8",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "ava": "^5.1.0",
+    "esbuild": "^0.17.18",
+    "tap-xunit": "^2.4.1",
+    "ts-node": "^10.9.1"
+  },
+  "ava": {
+    "extensions": {
+      "ts": "module"
+    },
+    "environmentVariables": {
+      "TS_NODE_TRANSPILE_ONLY": "true"
+    },
+    "nodeArguments": [
+      "--loader=ts-node/esm"
+    ],
+    "files": [
+      "test/**/*test.ts"
+    ]
+  }
+}

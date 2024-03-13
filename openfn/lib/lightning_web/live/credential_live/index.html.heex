@@ -1,0 +1,94 @@
+<LayoutComponents.page_content>
+  <:header>
+    <LayoutComponents.header current_user={@current_user}>
+      <:title><%= @page_title %></:title>
+      <.button phx-click={show_modal("new-credential-modal")}>
+        New credential
+      </.button>
+    </LayoutComponents.header>
+  </:header>
+  <LayoutComponents.centered>
+    <.live_component
+      id="new-credential-modal"
+      module={LightningWeb.CredentialLive.FormComponent}
+      action={:new}
+      credential_type={@selected_credential_type}
+      credential={
+        %Lightning.Credentials.Credential{
+          user_id: @current_user.id
+        }
+      }
+      current_user={@current_user}
+      projects={@projects}
+      project={nil}
+      show_project_credentials={true}
+      can_create_project_credential={true}
+      return_to={~p"/credentials"}
+    />
+    <%= if @live_action == :delete do %>
+      <.live_component
+        module={LightningWeb.Components.CredentialDeletionModal}
+        id={@credential.id}
+        credential={@credential}
+        return_to={~p"/credentials"}
+      />
+    <% end %>
+    <.table id="credentials">
+      <.tr>
+        <.th>Name</.th>
+        <.th>Projects with Access</.th>
+        <.th>Type</.th>
+        <.th>Production</.th>
+        <.th>Actions</.th>
+      </.tr>
+
+      <%= for credential <- @credentials do %>
+        <.tr id={"credential-#{credential.id}"}>
+          <.td class={if credential.scheduled_deletion, do: "line-through"}>
+            <%= credential.name %>
+          </.td>
+          <.td>
+            <%= credential.project_names %>
+          </.td>
+          <.td class={if credential.scheduled_deletion, do: "line-through"}>
+            <%= credential.schema %>
+          </.td>
+          <.td>
+            <%= if credential.production do %>
+              <div class="flex">
+                <Heroicons.exclamation_triangle class="w-5 h-5 text-secondary-500" />
+                &nbsp;Production
+              </div>
+            <% end %>
+          </.td>
+          <.td>
+            <%= if !credential.scheduled_deletion do %>
+              <span>
+                <.link phx-click={
+                  show_modal("edit-credential-#{credential.id}-modal")
+                }>
+                  Edit
+                </.link>
+              </span>
+              |
+            <% end %>
+            <.delete_action socket={@socket} credential={credential} />
+            <.live_component
+              id={"edit-credential-#{credential.id}-modal"}
+              module={LightningWeb.CredentialLive.FormComponent}
+              action={:edit}
+              credential_type={@selected_credential_type}
+              credential={credential}
+              current_user={@current_user}
+              projects={@projects}
+              project={nil}
+              show_project_credentials={true}
+              can_create_project_credential={true}
+              return_to={~p"/credentials"}
+            />
+          </.td>
+        </.tr>
+      <% end %>
+    </.table>
+  </LayoutComponents.centered>
+</LayoutComponents.page_content>

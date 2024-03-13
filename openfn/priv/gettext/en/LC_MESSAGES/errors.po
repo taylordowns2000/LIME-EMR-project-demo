@@ -1,0 +1,51 @@
+msgid "can't be blank"
+msgstr "This field can't be blank."
+
+msgid "has already been taken"
+msgstr "This email address already exists."
+
+msgid "should be at least %{count} character(s)"
+msgid_plural "should be at least %{count} character(s)"
+msgstr[0] "Password minimum length is %{count} characters."
+msgstr[1] "Password minimum length is %{count} characters."
+
+msgid "should be at most %{count}s character(s)"
+msgid_plural "should be at most %{count}s character(s)"
+msgstr[0] "Password maximum length is %{count} characters."
+msgstr[1] "Password maximum length is %{count} characters."
+
+msgid "must have the @ sign and no spaces"
+msgstr "Email address not valid."
+
+msgid "should be a 6 digit number"
+msgstr "Invalid OTP code."
+
+msgid "does not match password"
+msgstr "Your passwords do not match."
+
+msgid "doesn't match the project name"
+msgstr "The Project name does not match."
+
+msgid "must be a valid HTTP/s URL"
+msgstr "The HTTP/s URL provided is not valid."
+
+msgid "credential already added to this project."
+msgstr "This credential already exists for this project."
+
+msgid "user already a member of this project."
+msgstr "The user is alread a member of this project."
+
+msgid "must be :always or :js_expression when source is a trigger"
+msgstr "The condition must be 'Always' or 'JS expression' when the source is trigger."
+
+msgid "job doesn't exist, or is not in the same workflow"
+msgstr "This job does not exist, or is not in the same workflow."
+
+msgid "trigger doesn't exist, or is not in the same workflow"
+msgstr "This trigger does not exist, or is not in the same workflow."
+
+msgid "A workflow with this name already exists in this project."
+msgstr "A workflow with this name already exists."
+
+msgid "has not changed"
+msgstr "Please change your email"

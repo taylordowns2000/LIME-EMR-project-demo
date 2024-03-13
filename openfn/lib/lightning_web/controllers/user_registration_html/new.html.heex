@@ -1,0 +1,114 @@
+<LayoutComponents.nav conn={@conn} />
+<LayoutComponents.page_content>
+  <:header>
+    <LayoutComponents.header>
+      <:title>Register</:title>
+    </LayoutComponents.header>
+  </:header>
+  <LayoutComponents.centered>
+    <div id="register">
+      <.form
+        :let={f}
+        as={:user}
+        for={@changeset}
+        action={Routes.user_registration_path(@conn, :create)}
+      >
+        <div class="grid grid-cols-6 gap-6">
+          <div class="col-span-6 md:col-span-3 sm:col-span-4 border rounded-md shadow-sm bg-white p-6">
+            <%= if error = Phoenix.Flash.get(@flash, :error) do %>
+              <div class="alert alert-danger" role="alert">
+                <%= error %>
+              </div>
+            <% end %>
+            <%= if info = Phoenix.Flash.get(@flash, :info) do %>
+              <p class="alert alert-info" role="alert">
+                <%= info %>
+              </p>
+            <% end %>
+
+            <div class="grid grid-flow-row gap-4 auto-rows-max">
+              <div>
+                <.input
+                  field={f[:first_name]}
+                  label="First Name"
+                  required={true}
+                />
+              </div>
+              <div>
+                <.input field={f[:last_name]} required={true} label="Last Name" />
+              </div>
+              <div>
+                <.input
+                  field={f[:email]}
+                  type="email"
+                  label="Email"
+                  required={true}
+                />
+              </div>
+              <div>
+                <.input
+                  field={f[:password]}
+                  type="password"
+                  label="Password"
+                  required={true}
+                />
+              </div>
+
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <%= Phoenix.HTML.Form.checkbox(f, :terms_accepted,
+                    class:
+                      "focus:ring-primary-500 h-4 w-4 text-primary-600 text-sm border-secondary-300 rounded"
+                  ) %>
+                </div>
+                <div class="ml-3 text-sm">
+                  <%= Phoenix.HTML.Form.label(
+                    f,
+                    "I accept the terms of service.",
+                    class: "font-medium text-secondary-700"
+                  ) %>
+                  <br />
+                  <span class="text-xs text-secondary-500">
+                    Please check with the host of this instance of Lightning to
+                    ensure that you understand, accept, and are willing to abide
+                    by all of their terms and conditions. You can read the
+                    OpenFn.org terms of service <.link
+                      class="text-indigo-600 hover:underline"
+                      target="_blank"
+                      href="https://www.openfn.org/terms"
+                    >here</.link>.
+                  </span>
+                </div>
+              </div>
+              <.old_error field={f[:terms_accepted]} />
+              <LightningWeb.Components.Form.submit_button>
+                Register
+              </LightningWeb.Components.Form.submit_button>
+            </div>
+
+            <LightningWeb.Components.Form.divider />
+            <div class="text-xs text-secondary-700">
+              <div class="flex">
+                <div class="flex-none">
+                  <.link href={Routes.user_session_path(@conn, :new)}>
+                    Log in
+                  </.link>
+                </div>
+                <div class="grow"></div>
+
+                <div class="flex-none">
+                  <.link href={Routes.user_reset_password_path(@conn, :new)}>
+                    Forgot your password?
+                  </.link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </.form>
+      <div class="grid grid-cols-6 gap-6">
+        <div class="col-span-3"></div>
+      </div>
+    </div>
+  </LayoutComponents.centered>
+</LayoutComponents.page_content>

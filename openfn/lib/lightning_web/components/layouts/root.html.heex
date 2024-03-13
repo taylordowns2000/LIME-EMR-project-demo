@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-secondary-100">
+  <head>
+    <%= if values = Application.get_env(:lightning, :plausible) do %>
+      <script defer src={values[:src]} data-domain={values[:"data-domain"]}>
+      </script>
+    <% end %>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="//" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="msapplication-TileColor" content="#603cba" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title suffix=" · OpenFn Lightning">
+      <%= assigns[:page_title] || "Lightning" %>
+    </.live_title>
+    <link
+      phx-track-static
+      rel="stylesheet"
+      href={Routes.static_path(@conn, "/assets/fonts/inter.css")}
+    />
+    <link
+      phx-track-static
+      rel="stylesheet"
+      href={Routes.static_path(@conn, "/assets/fonts/fira-code.css")}
+    />
+    <link
+      phx-track-static
+      rel="stylesheet"
+      href={Routes.static_path(@conn, "/assets/app.css")}
+    />
+    <script
+      defer
+      phx-track-static
+      type="module"
+      src={Routes.static_path(@conn, "/assets/js/app.js")}
+    >
+    </script>
+  </head>
+  <body class="h-full">
+    <div class="min-h-full">
+      <%= @inner_content %>
+    </div>
+  </body>
+</html>
