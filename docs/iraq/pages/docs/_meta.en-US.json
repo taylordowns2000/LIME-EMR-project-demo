@@ -1,0 +1,10 @@
+{
+  "introduction": "Introduction",
+  "getting-started": "Getting Started",
+  "configure": "Configure",
+  "translations": "Translations",
+  "build": "Build",
+  "deploy": "Deploy",
+  "maintain": "Maintain",
+  "development-tooling": "Development tooling"
+}

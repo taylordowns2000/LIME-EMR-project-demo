@@ -1,0 +1,39 @@
+{
+  "name": "msf-ocg-lime-emr-iraq-project-docs",
+  "version": "1.0.0",
+  "description": "MSF OCG LIME Iraq documentation",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MSF-OCG/LIME-EMR-project-demo"
+  },
+  "author": "Joshua Nsereko",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/MSF-OCG/LIME-EMR-project-demo"
+  },
+  "homepage": "https://github.com/MSF-OCG/LIME-EMR-project-demo",
+  "dependencies": {
+    "next": "^14.1.0",
+    "nextra": "^2.13.2",
+    "nextra-theme-docs": "^2.13.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.1",
+    "remark-gfm": "^4.0.0",
+    "remark-github": "^12.0.0",
+    "sharp": "^0.33.2",
+    "swr": "^2.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.6",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
+  }
+}

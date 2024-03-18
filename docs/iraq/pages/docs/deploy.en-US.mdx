@@ -1,0 +1,35 @@
+
+# Deploy 
+
+## On localhost
+```shell
+# SSH Azure instance via jumphost
+ssh username@____.cloudapp.azure.com -p ____
+# switch to sudo privileges
+sudo su
+# Start OpenMRS
+docker-compose up -d
+# Verify that OpenMRS services are running
+docker ps
+# IF docker-compose file is missing, download configuration, then start OpenMRS
+curl https://raw.githubusercontent.com/openmrs/openmrs-distro-referenceapplication/main/docker-compose.yml > docker-compose.yml 
+# Verify that the web app is available
+https://___.cloudapp.azure.com 
+# All done!
+```
+
+## In the Cloud
+
+Ansible script to build
+
+```shell
+# Add Ansible repository
+sudo apt-add-repository ppa:ansible/ansible
+# Refresh system package index
+sudo apt update
+# Install Ansible
+sudo apt install ansible
+# Run the recipe
+ansible-playbook -i inventories/dev.ini playbook.yaml --ask-become-pass
+```
+## On premises 
