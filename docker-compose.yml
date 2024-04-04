@@ -191,8 +191,7 @@ services:
       - 'postgres:/var/lib/postgresql/data'
 
   web:
-    <<: *default-app
-    profiles: ["openfn"]
+    image: @openfn/lightning:v2.3.1
     deploy:
       resources:
         limits:
@@ -210,6 +209,14 @@ services:
       retries: 3
     ports:
       - '${LIGHTNING_EXTERNAL_PORT:-127.0.0.1:${PORT}}:${URL_PORT}'
+    # similiar to how kubernetes uses "initContainers" you could define a command like this that must run before the app image is booted up.
+    entrypoint: ["/app/bin/lightning", "eval", "Lightning.Release.migrate"]
+    # or you could extend this entrypoint to always run migrations before starting the app `Lightning.Release.migrate && /app/bin/server`
+
+
+    # in docker (not kubz) you'd do something like THIS to run the migrations on an already running container...
+    # docker exec -it my_openfn_container sh -c ["/app/bin/lightning", "eval", "Lightning.Release.migrate"]
+    # that's the SAME THING as running `mix ecto.migrate` (but you're doing it using the real production built image, which doesn't have "mix".)
 
   worker:
     image: 'openfn/ws-worker:latest'
